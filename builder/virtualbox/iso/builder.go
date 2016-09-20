@@ -26,9 +26,9 @@ type Config struct {
 	common.PackerConfig             `mapstructure:",squash"`
 	common.HTTPConfig               `mapstructure:",squash"`
 	common.ISOConfig                `mapstructure:",squash"`
+	common.FloppyConfig             `mapstructure:",squash"`
 	vboxcommon.ExportConfig         `mapstructure:",squash"`
 	vboxcommon.ExportOpts           `mapstructure:",squash"`
-	vboxcommon.FloppyConfig         `mapstructure:",squash"`
 	vboxcommon.OutputConfig         `mapstructure:",squash"`
 	vboxcommon.RunConfig            `mapstructure:",squash"`
 	vboxcommon.ShutdownConfig       `mapstructure:",squash"`
@@ -235,7 +235,7 @@ func (b *Builder) Run(ui packer.Ui, hook packer.Hook, cache packer.Cache) (packe
 		},
 		&communicator.StepConnect{
 			Config:    &b.config.SSHConfig.Comm,
-			Host:      vboxcommon.CommHost,
+			Host:      vboxcommon.CommHost(b.config.SSHConfig.Comm.SSHHost),
 			SSHConfig: vboxcommon.SSHConfigFunc(b.config.SSHConfig),
 			SSHPort:   vboxcommon.SSHPort,
 		},
